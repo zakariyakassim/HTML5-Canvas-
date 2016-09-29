@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+    </head>
+    <body style="background-color:grey">
+        <canvas id="myCanvas" width="800" height="500" style="border:1px solid #000000;">
+        </canvas>
+    </body>
+    <script>
+        var canvas = document.getElementById('myCanvas');
+        var context = canvas.getContext('2d');
+        //  context.canvas.width  = window.innerWidth-20;
+ // context.canvas.height = window.innerHeight;
+
+
+        function drawRect(x, y, color) {
+            context.beginPath();
+            context.rect(x, y, 200, 100);
+            // context.fillStyle = 'yellow';
+            // context.fill();
+            context.lineWidth = 3;
+            context.strokeStyle = color;
+            context.stroke();
+        }
+
+        function writeMessage(canvas, message) {
+            var context = canvas.getContext('2d');
+             context.clearRect(0, 0, 255, 40);
+            context.font = '18pt Calibri';
+            context.fillStyle = 'black';
+            context.fillText(message, 10, 25);
+        }
+        function getMousePos(canvas, evt) {
+            var rect = canvas.getBoundingClientRect();
+            return {
+                x: evt.clientX - rect.left,
+                y: evt.clientY - rect.top
+            };
+        }
+
+
+        canvas.addEventListener('mousemove', function (evt) {
+            var mousePos = getMousePos(canvas, evt);
+            var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
+            writeMessage(canvas, message);
+            drawRect(mousePos.x, mousePos.y, getRandomColor());
+
+
+
+        }, false);
+
+
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF'.split('');
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+    </script>
+
+</html>

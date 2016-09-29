@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+    </head>
+    <body>
+        <canvas id="myCanvas" width="800" height="500" style="border:1px solid #000000;">
+        </canvas>
+        <button id="clear">Clear Canvas</button>
+    </body>
+    <script>
+        var canvas = document.getElementById('myCanvas');
+        var context = canvas.getContext('2d');
+        drawCircle();
+        var n = 0;
+        function drawCircle(x, y, randomColor) {
+            context.beginPath();
+            //  context.clearRect(0, 0, canvas.width, canvas.height);
+            context.arc(x, y, n, 0, 2 * Math.PI);
+            context.strokeStyle = randomColor;
+            context.lineWidth = 1;
+            context.stroke();
+        }
+
+
+
+        function getMousePos(canvas, evt) {
+            var rect = canvas.getBoundingClientRect();
+            return {
+                x: evt.clientX - rect.left,
+                y: evt.clientY - rect.top
+            };
+        }
+
+
+
+        var increase = true;
+        var decrease = false;
+
+        canvas.addEventListener('mousemove', function (evt) {
+            var mousePos = getMousePos(canvas, evt);
+            //n = n+3;
+            if (increase) {
+                if (n < 50) {
+
+                    n = n + 3;
+                } else {
+                    decrease = true;
+                    increase = false;
+                }
+            }
+
+            if (decrease) {
+                if (n > 0) {
+
+                    n = n - 3;
+                } else {
+                    decrease = false;
+                    increase = true;
+                }
+            }
+
+
+
+            drawCircle(mousePos.x, mousePos.y, getRandomColor());
+
+
+
+        }, false);
+
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF'.split('');
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+
+            return color;
+        }
+
+        $("#clear").click(function () {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+        });
+
+
+    </script>
+</html>
